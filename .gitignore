@@ -1,0 +1,8 @@
+*.o
+*.bak
+*~
+Debug
+Release
+x64
+FMRepeater
+

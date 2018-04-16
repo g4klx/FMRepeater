@@ -1,0 +1,63 @@
+FM Repeater - 201804XX
+======================
+
+20130702
+--------
+
+Added daemon info to the logs.
+Split from the main Repeater package.
+Removed the URI USB support.
+
+20130704
+--------
+
+Added basic AX.25 receiving.
+
+20140303
+--------
+
+Added optional delay before sending the opening callsign.
+Add exception catching.
+Added APRS transmission with the beacon.
+Fixed bug in WAV file reading under Linux.
+
+20150208
+--------
+
+Use ALSA on Linux instead of PortAudio.
+Dynamic serial port selection on Linux.
+GPIO control potentially available on more platforms.
+
+20150210
+--------
+
+Updated the dynamic serial port selection for /dev/ttyACM*
+Updated the ALSA handing.
+
+20150213
+--------
+
+Updated the ALSA handling.
+Fixed a compile bug when defining GPIO.
+
+20150308
+--------
+
+More changes to the ALSA interface.
+Added a .mk for the Pi2.
+
+20150404
+--------
+
+Allow enumeration of the sound devices including the running one.
+
+201804XX
+--------
+
+Move the code over to use STL instead of wxWidgets.
+Remove the external input.
+Remove pre- and de-emphasis.
+Simplify the code.
+Remove the GUI and add new configuration system.
+Convert the RPi GPIO code to match the UDRC.
+
