@@ -133,7 +133,7 @@ m_current(0U)
 
 	// Shape the start and end of the tones
 	for (unsigned int i = 0U; i < rcLen; i++) {
-		float ampl = 0.5F * (1.0F - ::cos(M_PI * (float(i) / float(rcLen))));
+		float ampl = 0.5F * (1.0F - float(::cos(M_PI * (float(i) / float(rcLen)))));
 
 		dot[i]  *= ampl;
 		dash[i] *= ampl;

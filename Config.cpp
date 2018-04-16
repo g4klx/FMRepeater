@@ -42,7 +42,7 @@ m_daemon(false),
 m_idCallsign("G4KLX"),
 m_idBeacon("G4KLX IO90TT"),
 m_idSpeed(16U),
-m_idFreq(1000.0F),
+m_idFreq(1000U),
 m_idLevelHi(0.5F),
 m_idLevelLo(0.2F),
 m_idAtStart(ACS_NONE),
@@ -143,9 +143,9 @@ m_squelchInvert(false)
 			} else if (::strcmp(key, "freq") == 0) {
 				m_idFreq = (unsigned int)::atoi(val);
 			} else if (::strcmp(key, "levelHi") == 0) {
-				m_idLevelHi = ::atof(val);
+				m_idLevelHi = float(::atof(val));
 			} else if (::strcmp(key, "levelLo") == 0) {
-				m_idLevelLo = ::atof(val);
+				m_idLevelLo = float(::atof(val));
 			} else if (::strcmp(key, "atStart") == 0) {
 				m_idAtStart = ANALOGUE_CALLSIGN_START(::atoi(val));
 			} else if (::strcmp(key, "startDelay") == 0) {
@@ -165,7 +165,7 @@ m_squelchInvert(false)
 			} else if (::strcmp(key, "freq") == 0) {
 				m_ackFreq = (unsigned int)::atoi(val);
 			} else if (::strcmp(key, "level") == 0) {
-				m_ackLevel = ::atof(val);
+				m_ackLevel = float(::atof(val));
 			} else if (::strcmp(key, "dekay") == 0) {
 				m_ackDelay = (unsigned int)::atoi(val);
 			} else if (::strcmp(key, "min") == 0) {
@@ -179,11 +179,11 @@ m_squelchInvert(false)
 			}
 		} else if (section == SECTION_CTCSS) {
 			if (::strcmp(key, "freq") == 0) {
-				m_ctcssFreq = ::atof(val);
+				m_ctcssFreq = float(::atof(val));
 			} else if (::strcmp(key, "threshold") == 0) {
-				m_ctcssThresh = ::atof(val);
+				m_ctcssThresh = float(::atof(val));
 			} else if (::strcmp(key, "level") == 0) {
-				m_ctcssLevel = ::atof(val);
+				m_ctcssLevel = float(::atof(val));
 			} else if (::strcmp(key, "hang") == 0) {
 				m_ctcssHangTime = (unsigned int)::atoi(val);
 			} else if (::strcmp(key, "txMode") == 0) {

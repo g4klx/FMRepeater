@@ -60,7 +60,7 @@ bool CSoundCardReaderWriter::open()
 {
 	PaError error = ::Pa_Initialize();
 	if (error != paNoError) {
-		::fprintf(stderr, "Cannot initialise PortAudio"));
+		::fprintf(stderr, "Cannot initialise PortAudio\n");
 		return false;
 	}
 
@@ -73,14 +73,14 @@ bool CSoundCardReaderWriter::open()
 	PaDeviceIndex inDev, outDev;
 	bool res = convertNameToDevices(inDev, outDev);
 	if (!res) {
-		::fprintf(stderr, "Cannot convert name to device"));
+		::fprintf(stderr, "Cannot convert name to device\n");
 		return false;
 	}
 
 	if (inDev != -1) {
 		const PaDeviceInfo* inInfo  = ::Pa_GetDeviceInfo(inDev);
 		if (inInfo == NULL) {
-			::fprintf(stderr, "Cannot get device information for the input device"));
+			::fprintf(stderr, "Cannot get device information for the input device\n");
 			return false;
 		}
 
@@ -96,7 +96,7 @@ bool CSoundCardReaderWriter::open()
 	if (outDev != -1) {
 		const PaDeviceInfo* outInfo = ::Pa_GetDeviceInfo(outDev);
 		if (outInfo == NULL) {
-			::fprintf(stderr, "Cannot get device information for the output device"));
+			::fprintf(stderr, "Cannot get device information for the output device\n");
 			return false;
 		}
 
@@ -111,14 +111,14 @@ bool CSoundCardReaderWriter::open()
 
 	error = ::Pa_OpenStream(&m_stream, pParamsIn, pParamsOut, double(m_sampleRate), m_blockSize, paNoFlag, &scrwCallback, this);
 	if (error != paNoError) {
-		::fprintf(stderr, "Cannot open the audios stream(s)"));
+		::fprintf(stderr, "Cannot open the audios stream(s)\n");
 		::Pa_Terminate();
 		return false;
 	}
 
 	error = ::Pa_StartStream(m_stream);
 	if (error != paNoError) {
-		::fprintf(stderr, "Cannot start the audio stream(s)"));
+		::fprintf(stderr, "Cannot start the audio stream(s)\n");
 		::Pa_CloseStream(m_stream);
 		m_stream = NULL;
 
@@ -172,12 +172,12 @@ bool CSoundCardReaderWriter::convertNameToDevices(PaDeviceIndex& inDev, PaDevice
 		if (device->hostApi != apiIndex)
 			continue;
 
-		std::string name(device->name, wxConvLocal);
+		std::string name(device->name);
 
-		if (!m_readDevice.IsEmpty() && m_readDevice.IsSameAs(name) && device->maxInputChannels > 0)
+		if (!m_readDevice.empty() && m_readDevice == name && device->maxInputChannels > 0)
 			inDev = i;
 
-		if (!m_writeDevice.IsEmpty() && m_writeDevice.IsSameAs(name) && device->maxOutputChannels > 0)
+		if (!m_writeDevice.empty() && m_writeDevice == name && device->maxOutputChannels > 0)
 			outDev = i;
 	}
 

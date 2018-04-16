@@ -34,7 +34,7 @@ m_position(0U)
 	m_length = sampleRate * 10U;
 	m_audio  = new float[m_length];
 
-	float incr = 2.0F * M_PI * freq / float(sampleRate);
+	float incr = 2.0F * float(M_PI) * freq / float(sampleRate);
 	for (unsigned int i = 0U; i < m_length; i++) {
 		float phase = incr * float(i);
 		m_audio[i] = ::sin(phase);
