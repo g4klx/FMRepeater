@@ -135,6 +135,7 @@
     <ClCompile Include="Thread.cpp" />
     <ClCompile Include="TimeoutTones.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="UDRCController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArduinoController.h" />
@@ -159,6 +160,7 @@
     <ClInclude Include="Thread.h" />
     <ClInclude Include="TimeoutTones.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="UDRCController.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Version.h" />
   </ItemGroup>
