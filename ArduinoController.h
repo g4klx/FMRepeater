@@ -16,27 +16,38 @@
 
 #include "SerialDataController.h"
 #include "HardwareController.h"
+#include "Thread.h"
 
 #include <string>
 
-
-class CArduinoController : public IHardwareController {
+class CArduinoController : public IHardwareController, public CThread {
 public:
 	CArduinoController(const std::string& port);
 	virtual ~CArduinoController();
 
 	virtual bool open();
 
-	virtual void getDigitalInputs(bool& inp1, bool& inp2);
+	virtual void entry();
 
-	virtual void setDigitalOutputs(bool outp1, bool outp2, bool outp3);
+	virtual bool getSquelch();
+	virtual bool getDisable();
+
+	virtual void setTransmit(bool value);
+	virtual void setHeartbeat(bool value);
+	virtual void setActive(bool value);
 
 	virtual void close();
 
 private:
 	CSerialDataController m_serial;
-	unsigned char         m_out;
-	unsigned char         m_in;
+	bool                  m_squelch;
+	bool                  m_disable;
+	bool                  m_transmit;
+	bool                  m_heartbeat;
+	bool                  m_active;
+	bool                  m_kill;
+
+	void setOutputs();
 };
 
 #endif

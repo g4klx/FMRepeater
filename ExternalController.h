@@ -15,36 +15,28 @@
 #define	ExternalController_H
 
 #include "HardwareController.h"
-#include "Thread.h"
 
-class CExternalController : public CThread {
+class CExternalController {
 public:
 	CExternalController(IHardwareController* controller, bool pttInvert = false, bool squelchInvert = false);
-	virtual ~CExternalController();
+	~CExternalController();
 
-	virtual bool open();
+	bool open();
 
-	virtual bool getSquelch() const;
-	virtual bool getDisable() const;
+	bool getSquelch();
+	bool getDisable();
 
-	virtual void setTransmit(bool value);
-	virtual void setHeartbeat();
-	virtual void setActive(bool value);
+	void setTransmit(bool value);
+	void setHeartbeat();
+	void setActive(bool value);
 
-	virtual void close();
-
-	virtual void entry();
+	void close();
 
 private:
 	IHardwareController* m_controller;
 	bool                 m_pttInvert;
 	bool                 m_squelchInvert;
-	bool                 m_squelch;
-	bool                 m_disable;
 	bool                 m_heartbeat;
-	bool                 m_active;
-	bool                 m_transmit;
-	bool                 m_kill;
 };
 
 #endif

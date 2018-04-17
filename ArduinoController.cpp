@@ -13,7 +13,6 @@
 
 #include "ArduinoController.h"
 
-
 const char IN_PORT1 = 0x01U;
 const char IN_PORT2 = 0x02U;
 const char IN_PORT3 = 0x04U;
@@ -31,9 +30,14 @@ const char OUT_PORT8 = 0x80U;
 
 
 CArduinoController::CArduinoController(const std::string& port) :
+CThread(),
 m_serial(port, SERIAL_19200),
-m_out(0x00U),
-m_in(0x00U)
+m_squelch(false),
+m_disable(false),
+m_transmit(false),
+m_heartbeat(false),
+m_active(false),
+m_kill(false)
 {
 }
 
@@ -51,44 +55,74 @@ bool CArduinoController::open()
 	while (m_serial.read(&buffer, 1U) == 1)
 		;
 
-	m_out = 0x00U;
-	m_in  = 0x00U;
+	run();
 
 	return true;
 }
 
-void CArduinoController::getDigitalInputs(bool& inp1, bool& inp2)
+void CArduinoController::entry()
 {
-	unsigned char buffer;
-	int ret = m_serial.read(&buffer, 1U);
-	if (ret == 1) {
-		m_in = buffer;
-		m_serial.write(&m_out, 1U);
+	while (!m_kill) {
+		unsigned char in;
+		int ret = m_serial.read(&in, 1U);
+		if (ret == 1) {
+			m_squelch = (in & IN_PORT1) == IN_PORT1;
+			m_disable = (in & IN_PORT2) == IN_PORT2;
+		}
+
+		sleep(10U);
 	}
 
-	inp1 = (m_in & IN_PORT1) == IN_PORT1;
-	inp2 = (m_in & IN_PORT2) == IN_PORT2;
+	m_serial.close();
 }
 
-void CArduinoController::setDigitalOutputs(bool outp1, bool outp2, bool outp3)
+bool CArduinoController::getSquelch()
 {
-	m_out = 0x00U;
-	m_out |= outp1 ? OUT_PORT1 : 0x00U;
-	m_out |= outp2 ? OUT_PORT2 : 0x00U;
-	m_out |= outp3 ? OUT_PORT3 : 0x00U;
+	return m_squelch;
+}
 
-	unsigned char buffer;
-	int ret = m_serial.read(&buffer, 1U);
-	if (ret == 1) {
-		m_in = buffer;
-		m_serial.write(&m_out, 1U);
-	}
+bool CArduinoController::getDisable()
+{
+	return m_disable;
+}
+
+void CArduinoController::setTransmit(bool value)
+{
+	m_transmit = value;
+
+	setOutputs();
+}
+
+void CArduinoController::setHeartbeat(bool value)
+{
+	m_heartbeat = value;
+
+	setOutputs();
+}
+
+void CArduinoController::setActive(bool value)
+{
+	m_active = value;
+
+	setOutputs();
+}
+
+void CArduinoController::setOutputs()
+{
+	unsigned char out = 0x00U;
+	if (m_transmit)
+		out |= OUT_PORT1;
+	if (m_heartbeat)
+		out |= OUT_PORT2;
+	if (m_active)
+		out |= OUT_PORT3;
+
+	m_serial.write(&out, 1U);
 }
 
 void CArduinoController::close()
 {
-	unsigned char buffer = 0x00U;
-	m_serial.write(&buffer, 1U);
+	m_kill = true;
 
-	m_serial.close();
+	wait();
 }

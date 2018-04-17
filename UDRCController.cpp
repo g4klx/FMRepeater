@@ -24,9 +24,7 @@ const int PTT_PIN   = 12;
 const int PKSQL_PIN = 5;
 const int SQL_PIN   = 25;
 
-CUDRCController::CUDRCController() :
-m_outp1(false),
-m_outp3(false)
+CUDRCController::CUDRCController()
 {
 }
 
@@ -52,43 +50,36 @@ bool CUDRCController::open()
 	::pinMode(PTT_PIN,  OUTPUT);
 	::pinMode(BASE_PIN, OUTPUT);
 
-	::digitalWrite(PTT_PIN,  HIGH);
-	::digitalWrite(BASE_PIN, HIGH);
-
 	return true;
 }
 
-void CUDRCController::getDigitalInputs(bool& inp1, bool& inp2)
+bool CUDRCController::getSquelch()
 {
-	inp1 = ::digitalRead(SQL_PIN) == LOW;
-
-	inp2 = ::digitalRead(PKSQL_PIN) == LOW;
+	return ::digitalRead(SQL_PIN) == LOW;
 }
 
-void CUDRCController::setDigitalOutputs(bool outp1, bool outp2, bool outp3)
+bool CUDRCController::getDisable()
 {
-	if (outp1 != m_outp1) {
-		::digitalWrite(PTT_PIN, outp1 ? LOW : HIGH);
-		m_outp1 = outp1;
-	}
+	return ::digitalRead(PKSQL_PIN) == LOW;
+}
 
-	if (outp3 != m_outp3) {
-		::digitalWrite(BASE_PIN, outp3 ? LOW : HIGH);
-		m_outp3 = outp3;
-	}
+void CUDRCController::setTransmit(bool value)
+{
+	::digitalWrite(PTT_PIN, value ? LOW : HIGH);
+}
+
+void CUDRCController::setActive(bool value)
+{
+	::digitalWrite(BASE_PIN, value ? LOW : HIGH);
 }
 
 void CUDRCController::close()
 {
-	::digitalWrite(PTT_PIN,  HIGH);
-	::digitalWrite(BASE_PIN, HIGH);
 }
 
 #else
 
-CUDRCController::CUDRCController() :
-m_outp1(false),
-m_outp3(false)
+CUDRCController::CUDRCController()
 {
 }
 
@@ -101,11 +92,25 @@ bool CUDRCController::open()
 	return true;
 }
 
-void CUDRCController::getDigitalInputs(bool& inp1, bool& inp2)
+bool CUDRCController::getSquelch()
+{
+	return false;
+}
+
+bool CUDRCController::getDisable()
+{
+	return false;
+}
+
+void CUDRCController::setTransmit(bool value)
 {
 }
 
-void CUDRCController::setDigitalOutputs(bool outp1, bool outp2, bool outp3)
+void CUDRCController::setHeartbeat(bool value)
+{
+}
+
+void CUDRCController::setActive(bool value)
 {
 }
 

@@ -26,13 +26,25 @@ bool CDummyController::open()
 	return true;
 }
 
-void CDummyController::getDigitalInputs(bool& inp1, bool& inp2)
+bool CDummyController::getSquelch()
 {
-	inp1 = false;
-	inp2 = false;
+	return false;
 }
 
-void CDummyController::setDigitalOutputs(bool, bool, bool)
+bool CDummyController::getDisable()
+{
+	return false;
+}
+
+void CDummyController::setTransmit(bool)
+{
+}
+
+void CDummyController::setHeartbeat(bool)
+{
+}
+
+void CDummyController::setActive(bool)
 {
 }
 

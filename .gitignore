@@ -6,4 +6,4 @@ Release
 x64
 FMRepeater
 *.vcxproj.user
-
+.vscode

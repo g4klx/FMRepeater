@@ -23,9 +23,12 @@ public:
 
 	virtual bool open();
 
-	virtual void getDigitalInputs(bool& inp1, bool& inp2);
+	virtual bool getSquelch();
+	virtual bool getDisable();
 
-	virtual void setDigitalOutputs(bool outp1, bool outp2, bool outp3);
+	virtual void setTransmit(bool value);
+	virtual void setHeartbeat(bool value);
+	virtual void setActive(bool value);
 
 	virtual void close();
 
