@@ -31,7 +31,6 @@ public:
 
 private:
 	bool m_outp1;
-	bool m_outp2;
 	bool m_outp3;
 };
 

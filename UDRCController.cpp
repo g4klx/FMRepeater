@@ -15,13 +15,17 @@
 
 #if defined(UDRC)
 
-#include "wiringPi.h"
+#include <wiringPi.h>
 
 #include <cstdio>
 
+const int BASE_PIN  = 6;
+const int PTT_PIN   = 12;
+const int PKSQL_PIN = 5;
+const int SQL_PIN   = 25;
+
 CUDRCController::CUDRCController() :
 m_outp1(false),
-m_outp2(false),
 m_outp3(false)
 {
 }
@@ -38,56 +42,52 @@ bool CUDRCController::open()
 		return false;
 	}
 
-	::pinMode(8, INPUT);
-	::pinMode(9, INPUT);
+	::pinMode(SQL_PIN,   INPUT);
+	::pinMode(PKSQL_PIN, INPUT);
 
 	// Set pull ups on the input pins
-	::pullUpDnControl(8, PUD_UP);
-	::pullUpDnControl(9, PUD_UP);
+	::pullUpDnControl(SQL_PIN,   PUD_UP);
+	::pullUpDnControl(PKSQL_PIN, PUD_UP);
 
-	::pinMode(12, OUTPUT);
-	::pinMode(13, OUTPUT);
-	::pinMode(14, OUTPUT);
+	::pinMode(PTT_PIN,  OUTPUT);
+	::pinMode(BASE_PIN, OUTPUT);
 
-	setDigitalOutputs(false, false, false);
+	::digitalWrite(PTT_PIN,  HIGH);
+	::digitalWrite(BASE_PIN, HIGH);
 
 	return true;
 }
 
 void CUDRCController::getDigitalInputs(bool& inp1, bool& inp2)
 {
-	inp1 = ::digitalRead(8) == LOW;
+	inp1 = ::digitalRead(SQL_PIN) == LOW;
 
-	inp2 = ::digitalRead(9) == LOW;
+	inp2 = ::digitalRead(PKSQL_PIN) == LOW;
 }
 
 void CUDRCController::setDigitalOutputs(bool outp1, bool outp2, bool outp3)
 {
 	if (outp1 != m_outp1) {
-		::digitalWrite(12, outp1 ? HIGH : LOW);
+		::digitalWrite(PTT_PIN, outp1 ? LOW : HIGH);
 		m_outp1 = outp1;
 	}
 
-	if (outp2 != m_outp2) {
-		::digitalWrite(13, outp2 ? HIGH : LOW);
-		m_outp2 = outp2;
-	}
-
 	if (outp3 != m_outp3) {
-		::digitalWrite(14, outp3 ? HIGH : LOW);
+		::digitalWrite(BASE_PIN, outp3 ? LOW : HIGH);
 		m_outp3 = outp3;
 	}
 }
 
 void CUDRCController::close()
 {
+	::digitalWrite(PTT_PIN,  HIGH);
+	::digitalWrite(BASE_PIN, HIGH);
 }
 
 #else
 
 CUDRCController::CUDRCController() :
 m_outp1(false),
-m_outp2(false),
 m_outp3(false)
 {
 }
