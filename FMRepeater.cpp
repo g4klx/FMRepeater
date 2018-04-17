@@ -20,9 +20,7 @@
 #include "ArduinoController.h"
 #include "FMRepeater.h"
 #include "DummyController.h"
-#if defined(GPIO)
-#include "GPIOController.h"
-#endif
+#include "UDRCController.h"
 #include "CWKeyer.h"
 #include "Version.h"
 #include "Config.h"
@@ -160,10 +158,8 @@ bool CFMRepeater::run()
 
 	if (type == "Arduino") {
 		controller = new CExternalController(new CArduinoController(port), pttInvert, squelchInvert);
-#if defined(GPIO)
-	} else if (type == "GPIO") {
-		controller = new CExternalController(new CGPIOController, pttInvert, squelchInvert);
-#endif
+	} else if (type == "UDRC") {
+		controller = new CExternalController(new CUDRCController, pttInvert, squelchInvert);
 	} else {
 		controller = new CExternalController(new CDummyController, pttInvert, squelchInvert);
 	}

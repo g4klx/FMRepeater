@@ -12,7 +12,10 @@
  */
 
 #include "UDRCController.h"
-#include <wiringPi.h>
+
+#if defined(UDRC)
+
+#include "wiringPi.h"
 
 #include <cstdio>
 
@@ -79,3 +82,36 @@ void CUDRCController::setDigitalOutputs(bool outp1, bool outp2, bool outp3)
 void CUDRCController::close()
 {
 }
+
+#else
+
+CUDRCController::CUDRCController() :
+m_outp1(false),
+m_outp2(false),
+m_outp3(false)
+{
+}
+
+CUDRCController::~CUDRCController()
+{
+}
+
+bool CUDRCController::open()
+{
+	return true;
+}
+
+void CUDRCController::getDigitalInputs(bool& inp1, bool& inp2)
+{
+}
+
+void CUDRCController::setDigitalOutputs(bool outp1, bool outp2, bool outp3)
+{
+}
+
+void CUDRCController::close()
+{
+}
+
+#endif
+
