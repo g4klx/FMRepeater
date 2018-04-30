@@ -12,7 +12,7 @@ OBJECTS = ArduinoController.o AudioDelay.o Config.o CWKeyer.o DummyController.o 
 all:		FMRepeater
 
 FMRepeater:	$(OBJECTS)
-		$(CXX) $(OBJECTS) $(CFLAGS) $(LIBS) -o FMRepeater
+		$(CXX) $(OBJECTS) $(LDFLAGS) $(LIBS) -o FMRepeater
 
 %.o: %.cpp
 		$(CXX) $(CFLAGS) -c -o $@ $<
