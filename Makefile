@@ -1,8 +1,6 @@
 CXX     = g++
-# For the UDRC add " -DUDRC" to the end of the next line
-CFLAGS  = -g -O3 -Wall -std=c++0x -pthread
-# For the UDRC add " -lwiringPi" to the end of the next line
-LIBS    = -lpthread -lasound
+CFLAGS  = -g -O3 -Wall -std=c++0x -pthread -DUDRC
+LIBS    = -lpthread -lasound -lwiringPi
 LDFLAGS = -g
 
 OBJECTS = ArduinoController.o AudioDelay.o Config.o CWKeyer.o DummyController.o ExternalController.o FIRFilter.o \

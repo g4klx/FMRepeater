@@ -73,6 +73,10 @@ void CUDRCController::setActive(bool value)
 	::digitalWrite(BASE_PIN, value ? LOW : HIGH);
 }
 
+void CUDRCController::setHeartbeat(bool)
+{
+}
+
 void CUDRCController::close()
 {
 }

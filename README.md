@@ -13,7 +13,7 @@ These are the source files for building the FMRepeater. This is a simplified ver
 * Repeater control via an Arduino or a UDRC.
 * Audio I/O via any supported sound system, including the UDRC.
 
-It builds on 32-bit and 64-bit Linux as well as on Windows using Visual Studio 2017 on x86 and x64.page on the LCDproc website for more info.
+It builds on 32-bit and 64-bit Linux as well as on Windows using Visual Studio 2017 on x86 and x64.
 
 This software is licenced under the GPL v2 and is intended for amateur and educational use only. Use of this software for commercial purposes is strictly forbidden.
 
