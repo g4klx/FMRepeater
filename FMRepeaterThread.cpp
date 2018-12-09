@@ -350,9 +350,9 @@ void CFMRepeaterThread::readCallback(const float* input, unsigned int nSamples)
 	m_radioInBuffer.addData(input, nSamples);
 }
 
-void CFMRepeaterThread::writeCallback(float* output, unsigned int& nSamples)
+void CFMRepeaterThread::writeCallback(float* output, int& nSamples)
 {
-	if (nSamples == 0U)
+	if (nSamples == 0)
 		return;
 
 	::memset(output, 0x00, nSamples * sizeof(float));

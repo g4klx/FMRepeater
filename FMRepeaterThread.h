@@ -49,7 +49,7 @@ public:
 	virtual ~CFMRepeaterThread();
 
 	virtual void readCallback(const float* input, unsigned int nSamples);
-	virtual void writeCallback(float* output, unsigned int& nSamples);
+	virtual void writeCallback(float* output, int& nSamples);
 
 	virtual void setCallsign(CCWKeyer* callsign, CCWKeyer* beacon, float levelHi, float levelLo);
 	virtual void setAck(CCWKeyer* ackAudio, float level, unsigned int ack, unsigned int minimum);
